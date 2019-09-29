@@ -1,0 +1,16 @@
+pipeline {
+    agent { label 'bare-one' }
+    stages {
+        stage ('BuildEnvironmentDocker') {
+            steps {
+                script {
+                    sh ' cp -r docker/build/scripts . '
+                    docker.withRegistry('https://registry/', 'credential') {
+                        def image = docker.build('build:latest', '-f docker/build/Dockerfile
+                        image.push()
+                    }
+                }
+            }
+        }
+    }
+}
